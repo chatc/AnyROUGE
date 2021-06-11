@@ -10,8 +10,8 @@ def make_html_safe(s):
 
 def rouge(ref, hyp, log_path):
     assert len(ref) == len(hyp)
-    ref_dir = log_path + 'reference/'
-    cand_dir = log_path + 'candidate/'
+    ref_dir = os.path.join(log_path,'reference/')
+    cand_dir = os.path.join(log_path,'candidate/')
     if not os.path.exists(ref_dir):
         os.mkdir(ref_dir)
     if not os.path.exists(cand_dir):
@@ -55,7 +55,12 @@ def readline_aslist(path):
 
 
 if __name__ == '__main__':
+    # create a cache folder to store the intermediate results
     log_path = "./test"
+    if not os.path.exists(log_path):
+        os.makedirs(log_path)
+
+    # read the hypo and target files as lists
     hypo_file_name = 'test.hypo'
     test_file_name = 'test.target'
     ref = readline_aslist("./{}".format(test_file_name))
@@ -63,4 +68,6 @@ if __name__ == '__main__':
 
     print("source file: ", hypo_file_name)
     print("target file: ", test_file_name)
+
+    # run the rouge evaluation
     rouge(ref, hypo, log_path)
