@@ -41,9 +41,15 @@ def rouge(ref, hyp, log_path):
     print("F_measure: %s Recall: %s Precision: %s\n"
           % (str(f_score), str(recall), str(precision)))
 
-    with open(ref_dir + "rougeScore", 'w+', encoding='utf-8') as f:
-        f.write("F_measure: %s Recall: %s Precision: %s\n"
-                % (str(f_score), str(recall), str(precision)))
+    # with open(ref_dir + "rougeScore", 'w+', encoding='utf-8') as f:
+    #     f.write("F_measure: %s Recall: %s Precision: %s\n"
+    #             % (str(f_score), str(recall), str(precision)))
+
+    # delete the temp files each time
+    import shutil
+    shutil.rmtree(ref_dir)
+    shutil.rmtree(cand_dir)
+
     return f_score[:], recall[:], precision[:]
 
 def readline_aslist(path):
