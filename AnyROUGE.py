@@ -18,9 +18,13 @@ def rouge(ref, hyp, log_path):
         os.mkdir(cand_dir)
     for i in range(len(ref)):
         with open(ref_dir + "%06d_reference.txt" % i, 'w', encoding='utf-8') as f:
-            f.write(make_html_safe(ref[i]) + '\n')
+            tokenized_ref = sent_tokenize(ref[i])
+            tokenized_ref = '\n'.join(tokenized_ref)
+            f.write(make_html_safe(tokenized_ref) + '\n')
         with open(cand_dir + "%06d_candidate.txt" % i, 'w', encoding='utf-8') as f:
-            f.write(make_html_safe(hypo[i]) + '\n')
+            tokenized_cand = sent_tokenize(hypo[i])
+            tokenized_cand = '\n'.join(tokenized_cand)
+            f.write(make_html_safe(tokenized_cand) + '\n')
 
     r = pyrouge.Rouge155()
     r.model_filename_pattern = '#ID#_reference.txt'
